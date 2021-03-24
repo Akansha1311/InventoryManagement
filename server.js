@@ -84,7 +84,6 @@ app.use(
   require("./routes/fabric-inspection-board")
 );
 app.use("/cutting-board", require("./routes/cutting-board"));
-app.use("/rework-kanban-card", require("./routes/rework-kanban-card"));
 app.use("/notification-board", require("./routes/notification-board"));
 app.use("/analyze", require("./routes/analyse"));
 app.use("/login", require("./routes/login"));
