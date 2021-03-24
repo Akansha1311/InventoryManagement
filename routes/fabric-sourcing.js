@@ -44,7 +44,6 @@ router.post("/filter", async (req, res) => {
       obj[prop] = req.body[prop];
     }
   });
-  console.log(obj);
   let data = await AvailableProducts.find(obj, "-_id -__v")
     .sort({ createdAt: -1 })
     .lean();
@@ -53,5 +52,9 @@ router.post("/filter", async (req, res) => {
     moment,
   });
 });
-
+router.get("/delete/:id", async (req, res) => {
+  let id = req.params.id;
+  let deletedCard = await AvailableProducts.findOneAndDelete({ id: id });
+  res.redirect("/fabric-sourcing/available-fabrics");
+});
 module.exports = router;
