@@ -17,11 +17,11 @@ function checkAuth(req, res, next) {
     });
   }
 }
-router.get("/", (req, res) => {
+router.get("/", checkAuth, (req, res) => {
   res.render(path.join(__dirname, "../", "/views/fabric-issuing-card.ejs"));
 });
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth, async (req, res) => {
   let newCard = {};
   Object.keys(req.body).forEach(function (prop) {
     newCard[prop] = req.body[prop];
