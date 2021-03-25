@@ -6,7 +6,17 @@ const shortid = require("shortid");
 const moment = require("moment");
 //Models
 const KanbanCard = require("../models/KanbanCard");
-
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    let data = req.flash("message")[0];
+    res.render(path.join(__dirname, "../", "/views/login"), {
+      message: "",
+      data,
+    });
+  }
+}
 router.get("/", (req, res) => {
   res.render(path.join(__dirname, "../", "/views/fabric-issuing-card.ejs"));
 });
