@@ -7,12 +7,22 @@ const moment = require("moment");
 //Models
 const AvailableProducts = require("../models/AvailableProducts");
 const AnalysePerformance = require("../models/AnalysePerformance");
-
-router.get("/form", (req, res) => {
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    let data = req.flash("message")[0];
+    res.render(path.join(__dirname, "../", "/views/login"), {
+      message: "",
+      data,
+    });
+  }
+}
+router.get("/form", checkAuth, (req, res) => {
   res.render(path.join(__dirname, "../", "/views/fabric-sourcing-form.ejs"));
 });
 
-router.post("/form", async (req, res) => {
+router.post("/form", checkAuth, async (req, res) => {
   let newCard = {};
   Object.keys(req.body).forEach(function (prop) {
     newCard[prop] = req.body[prop];
@@ -52,7 +62,7 @@ router.post("/filter", async (req, res) => {
     moment,
   });
 });
-router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id", checkAuth, async (req, res) => {
   let id = req.params.id;
   let deletedCard = await AvailableProducts.findOneAndDelete({ id: id });
   res.redirect("/fabric-sourcing/available-fabrics");
