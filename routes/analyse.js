@@ -45,7 +45,7 @@ router.post("/filter", async (req, res) => {
   });
 });
 
-router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id", checkAuth, async (req, res) => {
   let id = req.params.id;
   let deletedCard = await AnalysePerformance.findOneAndDelete({ id: id });
   res.redirect("/analyze");
